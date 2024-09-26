@@ -1,70 +1,106 @@
 *{
     padding: 0;
-    
+    box-sizing: border-box;
     font-size: 20px;    
 
 }
 
+
+
 body{
-    background: #6B5D4C;
+    
+    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(107, 93, 76, 0.5) ), url('../images/bg_image.jpg');
+    background-color: black;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
     text-align: center;
+    height: 100%;
 }
 
-.title{
-    margin-top: 1rem;
-    font-size: 4rem;
-    color: #FEE5C8;
-    margin-bottom: 1rem;
-}
+
+
+
 
 .grid-container{
     display: grid;
     margin: auto;
-    max-width: 1100px;
+    max-width: 1300px;
     justify-content: center;
     grid-template-columns: 1.3fr 1.3fr;
-    grid-template-rows: 140px 250px 250px;
+    grid-template-rows: 1fr 140px 250px 250px;
     gap: 1rem;
     grid-template-areas:
+    "title title"
     "status ."
     "game-area options"
     "game-area ."
 }
 
+.title{
+    grid-area: title;
+    margin-top: 1rem;
+    font-size: 5.5rem;
+    color: #FEE5C8;
+    margin-bottom: 1rem;   
+                text-shadow: 
+                1px 1px 2px rgba(0, 0, 0, 0.5),   /* Offset down-right */
+                -1px -1px 2px rgba(0, 0, 0, 0.5), /* Offset up-left */
+                0 0 5px rgba(0, 0, 0, 0.5);       /* Soft inner shadow effect */
+        }
+
+
+.grid-item{
+    border-radius: 1rem;
+    background: #FEE5C8;
+    border: 2px solid black;
+    box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.5), 
+    inset -5px -5px 10px rgba(255, 255, 255, 0.5);
+}
 .grid-item-1{
-    display: grid;
     grid-area: status;
-    border: 1px solid black;
-    background: gray;
-    
+
 }
 
 .grid-item-2{
+    padding: 1rem;
+    display: grid;
     grid-area: game-area;
-    background: pink;
-
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
 }
 
 .grid-item-3{
+    padding: 1rem;
     grid-area: options;
-    background: black;
-
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
 }
 
 .image-card{
-    background: red;
+    border-radius: 1rem;
+    background: #6B5D4C;
+    border: 2px solid black;
 }
 
 
-@media(max-width: 900px){
+@media(max-width: 1200px){
+
+
     .grid-container{
-        grid-template-rows: 140px 250px 250px 250px;
+        width: 700px;
+        grid-template-rows: 1fr 140px 250px 250px 250px;
         grid-template-areas:
+        "title title"
         "status status"
         "game-area game-area"
         "game-area game-area"
         "options options"
-
-
+        
     }
+
+
 }
