@@ -1,0 +1,56 @@
+*{
+    padding: 0;
+    
+    font-size: 20px;    
+
+}
+
+body{
+    background: #6B5D4C;
+    text-align: center;
+}
+
+.title{
+    margin-top: 1rem;
+    font-size: 4rem;
+    color: #FEE5C8;
+    margin-bottom: 1rem;
+}
+
+.grid-container{
+    display: grid;
+    margin: auto;
+    max-width: 1100px;
+    justify-content: center;
+    grid-template-columns: 1.3fr 1.3fr;
+    grid-template-rows: 140px 250px 250px;
+    gap: 1rem;
+    grid-template-areas:
+    "status ."
+    "game-area options"
+    "game-area ."
+}
+
+.grid-item-1{
+    grid-area: status;
+    border: 1px solid black;
+    background: gray;
+
+
+}
+.grid-item-2{
+    grid-area: game-area;
+    background: pink;
+
+}
+
+.grid-item-3{
+    grid-area: options;
+    background: black;
+
+}
+
+
+@media(max-width: 900px){
+
+}
