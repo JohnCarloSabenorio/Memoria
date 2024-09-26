@@ -32,12 +32,13 @@ body{
 }
 
 .grid-item-1{
+    display: grid;
     grid-area: status;
     border: 1px solid black;
     background: gray;
-
-
+    
 }
+
 .grid-item-2{
     grid-area: game-area;
     background: pink;
@@ -50,7 +51,20 @@ body{
 
 }
 
+.image-card{
+    background: red;
+}
+
 
 @media(max-width: 900px){
+    .grid-container{
+        grid-template-rows: 140px 250px 250px 250px;
+        grid-template-areas:
+        "status status"
+        "game-area game-area"
+        "game-area game-area"
+        "options options"
 
+
+    }
 }
