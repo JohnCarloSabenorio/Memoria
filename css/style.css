@@ -1,107 +1,143 @@
-*{
-    padding: 0;
-    box-sizing: border-box;
-    font-size: 20px;    
-
+* {
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 20px;
 }
 
-
-
-body{
-    
-    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(107, 93, 76, 0.5) ), url('../images/bg_image.jpg');
-    background-color: black;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    background-attachment: fixed;
-    text-align: center;
-    height: 100%;
+body {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(107, 93, 76, 0.5)),
+    url("../images/bg_image.jpg");
+  background-color: black;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  text-align: center;
+  height: 100%;
 }
 
-
-
-
-
-.grid-container{
-    display: grid;
-    margin: auto;
-    max-width: 1300px;
-    justify-content: center;
-    grid-template-columns: 1.3fr 1.3fr;
-    grid-template-rows: 1fr 140px 250px 250px;
-    gap: 1rem;
-    grid-template-areas:
+.grid-container {
+  display: grid;
+  margin: auto;
+  max-width: 1300px;
+  justify-content: center;
+  grid-template-columns: 1.3fr 1.3fr;
+  grid-template-rows: .5fr .5fr .5fr 1fr;
+  gap: 1rem;
+  grid-template-areas:
     "title title"
     "status ."
     "game-area options"
-    "game-area ."
+    "game-area .";
 }
 
-.title{
-    grid-area: title;
-    margin-top: 1rem;
-    font-size: 5.5rem;
-    color: #FEE5C8;
-    margin-bottom: 1rem;   
-                text-shadow: 
-                1px 1px 2px rgba(0, 0, 0, 0.5),   /* Offset down-right */
-                -1px -1px 2px rgba(0, 0, 0, 0.5), /* Offset up-left */
-                0 0 5px rgba(0, 0, 0, 0.5);       /* Soft inner shadow effect */
-        }
+.title {
+  grid-area: title;
+  margin-top: 1rem;
+  font-size: 5rem;
+  color: #fee5c8;
+  margin-bottom: 1rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5), -1px -1px 2px rgba(0, 0, 0, 0.5),
+    0 0 5px rgba(0, 0, 0, 0.5);
+}
 
-
-.grid-item{
-    border-radius: 1rem;
-    background: #FEE5C8;
-    border: 2px solid black;
-    box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.5), 
+.grid-item {
+  border-radius: 1rem;
+  background: #fee5c8;
+  border: 2px solid black;
+  box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.5),
     inset -5px -5px 10px rgba(255, 255, 255, 0.5);
 }
-.grid-item-1{
-    grid-area: status;
+
+.grid-item-1 {
+  grid-area: status;
+}
+
+.progress-bar{
+  border: 2px solid black;
+  height: 1.4rem;
+  margin-inline: 1rem;
+  border-radius: 1rem;
+  box-shadow: inset 3px 3px 5px rgba(0, 0, 0, 0.5),
+    inset -5px -5px 10px rgba(255, 255, 255, 0.5);
+}
+
+.progress{
+  box-shadow: inset 3px 3px 5px rgba(0, 0, 0, 0.5),
+  inset -5px -5px 10px rgba(141, 210, 127, 0.5);
+  background-color: #8DD27F;
+  height: 100%;
+  border-radius: 1rem;
+  width: 10%;
+  border-right: 2px solid black;
+}
+.counter{
+  display: flex;
+  padding-inline: 1rem;
+  bottom:0;
+}
+.mistakes{
+  margin-left: 1rem;
+}
+.percentage{
+  margin-left: auto;
+}
+
+.grid-item-2 {
+  padding: .5rem;
+  display: grid;
+  grid-area: game-area;
+  grid-template-rows: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
 
 }
 
-.grid-item-2{
-    padding: 1rem;
-    display: grid;
-    grid-area: game-area;
-    grid-template-rows: 1fr 1fr 1fr;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
+.image-card {
+  border-radius: 1rem;
+  background: #6b5d4c;
+  border: 2px solid black;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+.grid-item-3 {
+  padding: 1rem;
+  grid-area: options;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: .6rem;
+  
 }
 
-.grid-item-3{
-    padding: 1rem;
-    grid-area: options;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    gap: 5px;
+.option{
+  text-align: center;
 }
 
-.image-card{
-    border-radius: 1rem;
-    background: #6B5D4C;
-    border: 2px solid black;
-}
+@media (max-width: 1200px) {
+  .grid-container {
+    aspect-ratio: 1/2;
+    grid-template-rows: .2fr .2fr 1fr 1fr .5fr;
+    grid-template-areas:
+      "title title"
+      "status status"
+      "game-area game-area"
+      "game-area game-area"
+      "options options";
+  }
 
+  .grid-item-2 {
 
-@media(max-width: 1200px){
+    min-height: 400px;
 
-
-    .grid-container{
-        width: 700px;
-        grid-template-rows: 1fr 140px 250px 250px 250px;
-        grid-template-areas:
-        "title title"
-        "status status"
-        "game-area game-area"
-        "game-area game-area"
-        "options options"
-        
-    }
+  
+  }
 
 
 }
+
+
+

@@ -1,68 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel = "stylesheet" href = "./css/style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/style.css" />
     <title>Memoria</title>
-</head>
-<body>
-
-    <div class = "grid-container">
-        <h1 class = "title">Memoria</h1>
-        <div class = "grid-item grid-item-1"></div>
-        <div class = "grid-item grid-item-2">
-            <div class = "image-card"></div>
-            <div class = "image-card"></div>
-            <div class = "image-card"></div>
-            <div class = "image-card"></div>
-            <div class = "image-card"></div>
-            <div class = "image-card"></div>
-            <div class = "image-card"></div>
-            <div class = "image-card"></div>
-            <div class = "image-card"></div>
-            <div class = "image-card"></div>
-            <div class = "image-card"></div>
-            <div class = "image-card"></div>
+  </head>
+  <body>
+    <div class="grid-container">
+      <h1 class="title">Memory Game</h1>
+      <div class="grid-item grid-item-1">
+        <p class="timer">00:00</p>
+        <div class = "progress-bar">
+            <div class = "progress"></div>
         </div>
-        <div class = "grid-item grid-item-3">
-            <p>Level:</p>
-            <select name ="level" id = "level">
-                <option value = "4x3">4x3</option>
-                <option value = "4x4">4x4</option>
-                <option value = "5x4">5x4</option>
-                <option value = "6x5">6x5</option>
-                <option value = "6x6">6x6</option>
-            </select>
-            <p>Speed:</p>
-            <select name ="speed" id = "speed">
-                <option value = "Fast">Fast</option>
-                <option value = "Standard">Standard</option>
-                <option value = "Slow">Slow</option>
-                <option value = "Very Slow">Very Slow</option>
-            </select>
-            <p>Hide Pairs:</p>
-            <select name ="level" id = "level">
-                <option value = "On">On</option>
-                <option value = "Off">Off</option>
-            </select>
-            <p>Numbered:</p>
-            <select name ="level" id = "level">
-                <option value = "On">On</option>
-                <option value = "Off">Off</option>
-            </select>
-            <p>Hide Timer:</p>
-            <select name ="level" id = "level">
-                <option value = "On">On</option>
-                <option value = "Off">Off</option>
-
-            </select>
-            <p>Hide Moves:</p>
-            <select name ="level" id = "level">
-                <option value = "On">On</option>
-                <option value = "Off">Off</option>
-            </select>
+        <div class = "counter">
+          <p class="moves">Moves: 0</p>
+          <p class="mistakes">Mistakes: 0</p>
+          <p class="percentage">100%</p>
         </div>
+      </div>
+      <div class="grid-item grid-item-2">
+        <div class="image-card"></div>
+        <div class="image-card"></div>
+        <div class="image-card"></div>
+        <div class="image-card"></div>
+        <div class="image-card"></div>
+        <div class="image-card"></div>
+        <div class="image-card"></div>
+        <div class="image-card"></div>
+        <div class="image-card"></div>
+        <div class="image-card"></div>
+        <div class="image-card"></div>
+        <div class="image-card"></div>
+      </div>
+      <div class="grid-item grid-item-3">
+        <p>Level:</p>
+        <select class="option" name="level" id="level" onchange="changeLevel()">
+          <option value="4x3">4x3</option>
+          <option value="4x4">4x4</option>
+          <option value="5x4">5x4</option>
+          <option value="6x5">6x5</option>
+          <option value="6x6">6x6</option>
+        </select>
+        <p>Speed:</p>
+        <select class="option" name="speed" id="speed">
+          <option value="Fast">Fast</option>
+          <option value="Standard">Standard</option>
+          <option value="Slow">Slow</option>
+          <option value="Very Slow">Very Slow</option>
+        </select>
+        <p>Hide Pairs:</p>
+        <select class="option" name="hide-pairs" id="hide-pairs">
+          <option value="On">On</option>
+          <option value="Off">Off</option>
+        </select>
+        <p>Numbered:</p>
+        <select class="option" name="numbered" id="numbered">
+          <option value="On">On</option>
+          <option value="Off">Off</option>
+        </select>
+        <p>Hide Timer:</p>
+        <select class="option" name="hide-timer" id="hide-timer">
+          <option value="On">On</option>
+          <option value="Off">Off</option>
+        </select>
+        <p>Hide Moves:</p>
+        <select class="option" name="hide-moves" id="hide-moves">
+          <option value="On">On</option>
+          <option value="Off">Off</option>
+        </select>
+      </div>
     </div>
-</body>
+
+    <script src="./js/index.js"></script>
+  </body>
 </html>
