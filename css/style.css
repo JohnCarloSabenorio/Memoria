@@ -3,7 +3,10 @@
   box-sizing: border-box;
   font-size: 20px;
 }
-
+html{
+  padding: 0;
+  margin: 0;
+}
 body {
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(107, 93, 76, 0.5)),
     url("../images/bg_image.jpg");
@@ -14,6 +17,7 @@ body {
   background-attachment: fixed;
   text-align: center;
   height: 100%;
+  padding: 0;
 }
 
 .grid-container {
@@ -21,13 +25,14 @@ body {
   margin: auto;
   max-width: 1300px;
   justify-content: center;
-  grid-template-columns: 1.3fr 1.3fr;
-  grid-template-rows: .5fr .5fr .5fr 1fr;
+  grid-template-columns: 1.2fr 1.2fr;
+  grid-template-rows: .5fr .5fr .5fr .5fr 100px;
   gap: 1rem;
   grid-template-areas:
-    "title title"
     "status ."
+    "game-area title"
     "game-area options"
+    "game-area ."
     "game-area .";
 }
 
@@ -47,6 +52,7 @@ body {
   border: 2px solid black;
   box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.5),
     inset -5px -5px 10px rgba(255, 255, 255, 0.5);
+  
 }
 
 .grid-item-1 {
@@ -70,6 +76,7 @@ body {
   border-radius: 1rem;
   width: 10%;
   border-right: 2px solid black;
+  transition: all .5s;
 }
 .counter{
   display: flex;
@@ -110,7 +117,10 @@ body {
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   gap: .6rem;
-  
+}
+
+.label{
+  font-weight: bold;
 }
 
 .option{
@@ -127,11 +137,12 @@ body {
       "game-area game-area"
       "game-area game-area"
       "options options";
+
   }
 
   .grid-item-2 {
 
-    min-height: 400px;
+    min-height: 500px;
 
   
   }

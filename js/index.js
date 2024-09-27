@@ -6,7 +6,7 @@ const hideTimer = document.getElementById("hide-timer");
 const hideMoves = document.getElementById("hide-moves");
 const gameArea = document.querySelector(".grid-item-2");
 const progress = document.querySelector(".progress");
-let pairsFounded = 3;
+let pairsFounded = 6;
 let numOfCards = 12;
 
 
