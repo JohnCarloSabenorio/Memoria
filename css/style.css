@@ -1,3 +1,7 @@
+:root{
+  --border-radius: .5rem;
+}
+
 * {
   padding: 0;
   box-sizing: border-box;
@@ -25,29 +29,26 @@ body {
   margin: auto;
   max-width: 1300px;
   justify-content: center;
-  grid-template-columns: 1.2fr 1.2fr;
-  grid-template-rows: .5fr .5fr .5fr .5fr 100px;
+  grid-template-columns: minmax(250px, 600px) minmax(250px, 380px);
   gap: 1rem;
   grid-template-areas:
-    "status ."
-    "game-area title"
+    "game-area status"
     "game-area options"
-    "game-area ."
-    "game-area .";
+    "game-area reset"
 }
 
 .title {
   grid-area: title;
-  margin-top: 1rem;
+  margin: 0;
+  margin-bottom: .7rem;
   font-size: 5rem;
   color: #fee5c8;
-  margin-bottom: 1rem;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5), -1px -1px 2px rgba(0, 0, 0, 0.5),
     0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .grid-item {
-  border-radius: 1rem;
+  border-radius: var(--border-radius);
   background: #fee5c8;
   border: 2px solid black;
   box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.5),
@@ -59,24 +60,33 @@ body {
   grid-area: status;
 }
 
+.grid-item-1 p{
+  padding: 0;
+}
+.timer{
+  margin-top: .5em;
+}
+
 .progress-bar{
   border: 2px solid black;
-  height: 1.4rem;
+  height: 20px;
   margin-inline: 1rem;
-  border-radius: 1rem;
+  border-radius: var(--border-radius);
   box-shadow: inset 3px 3px 5px rgba(0, 0, 0, 0.5),
     inset -5px -5px 10px rgba(255, 255, 255, 0.5);
 }
+
+
 
 .progress{
   box-shadow: inset 3px 3px 5px rgba(0, 0, 0, 0.5),
   inset -5px -5px 10px rgba(141, 210, 127, 0.5);
   background-color: #8DD27F;
   height: 100%;
-  border-radius: 1rem;
+  border-radius:var(--border-radius);
   width: 10%;
   border-right: 2px solid black;
-  transition: all .5s;
+  transition: width .5s;
 }
 .counter{
   display: flex;
@@ -84,9 +94,11 @@ body {
   bottom:0;
 }
 .mistakes{
+  padding-top: 0;
   margin-left: 1rem;
 }
 .percentage{
+  padding: 0;
   margin-left: auto;
 }
 
@@ -103,7 +115,7 @@ body {
 }
 
 .image-card {
-  border-radius: 1rem;
+  border-radius: var(--border-radius);
   background: #6b5d4c;
   border: 2px solid black;
   width: 100%;
@@ -112,32 +124,62 @@ body {
 }
 .grid-item-3 {
   padding: 1rem;
+  padding-inline: 1.5rem;
   grid-area: options;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: .6rem;
+  text-align: left;
 }
 
 .label{
   font-weight: bold;
+  margin:0;
+  padding: 0;
+  line-height: 3rem;
 }
 
 .option{
   text-align: center;
 }
 
+.reset-btn{
+  grid-area: reset;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  background: #fee5c8;
+  border: 2px solid black;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+select{
+  background-color: #6b5d4c;
+  color: #fee5c8;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+  border-radius: var(--border-radius);
+  border: 2px solid black;
+}
+
+select option{
+  text-align: center;
+}
+
+
 @media (max-width: 1200px) {
   .grid-container {
-    aspect-ratio: 1/2;
-    grid-template-rows: .2fr .2fr 1fr 1fr .5fr;
-    grid-template-areas:
-      "title title"
-      "status status"
-      "game-area game-area"
-      "game-area game-area"
-      "options options";
 
+    width: 100%;
+    aspect-ratio: 1/2;
+    grid-template-columns: .5fr;
+    grid-template-rows: .2fr .2fr .2fr .2fr ;
+    grid-template-areas:
+      "status"
+      "game-area"
+      "options"
+      "reset";
+    align-items: center;
   }
 
   .grid-item-2 {
@@ -146,9 +188,18 @@ body {
 
   
   }
-
-
 }
 
+@media(max-width: 900px){
+  .grid-container{
+    grid-template-columns: .8fr;
+  }
+}
+
+@media (max-width: 500px){
+  .grid-container{
+    grid-template-columns: 1fr;
+  }
+}
 
 
