@@ -4,9 +4,23 @@ const hidePairs = document.getElementById("hide-pairs");
 const numbered = document.getElementById("hide-pairs");
 const hideTimer = document.getElementById("hide-timer");
 const hideMoves = document.getElementById("hide-moves");
-const gameArea = document.querySelector(".grid-item-2");
+const gameArea = document.querySelector(".cards-container");
 const progress = document.querySelector(".progress");
+const startContainer = document.querySelector(".start-container");
+const startBtn = document.querySelector(".start-btn");
+const countdown = document.querySelector(".countdown");
+startBtn.addEventListener("click", startHandler);
 
+async function startHandler(e) {
+  countdown.style.display = "inline";
+  let start = e.currentTarget;
+  start.style.display = "none";
+  for (let i = 3; i > 0; i--) {
+    countdown.textContent = "" + i;
+    await new Promise((resolve) => setTimeout(resolve, 800));
+  }
+  startContainer.style.display = "none";
+}
 const colors = [
   "#87CEEB", // Sky Blue
   "#FF7F50", // Coral
@@ -34,8 +48,11 @@ let colorsSelected = [];
 let flipCount = 0;
 
 changeLevel();
+updateProgress();
 // gets the percentage of the progress
-progress.style.width = `${((pairsFounded * 2) / numOfCards) * 100}%`; // pairs founded is multiplied by 2 because 1 pair = 2 cards
+function updateProgress() {
+  progress.style.width = `${((pairsFounded * 2) / numOfCards) * 100}%`; // pairs founded is multiplied by 2 because 1 pair = 2 cards
+}
 
 function changeLevel() {
   gameArea.innerHTML = "";
@@ -127,7 +144,6 @@ async function flipCardHandler(e) {
 
   // When two cards have been selected
   if (flipCount === 2) {
-
     // This will give a brief delay before checking if the cards match or not
     await new Promise((resolve) => setTimeout(resolve, 700));
 
@@ -136,6 +152,11 @@ async function flipCardHandler(e) {
 
     if (colorsSelected[0] === colorsSelected[1]) {
       // removes the event listeners of the two matched cards
+      pairsFounded += 1;
+      updateProgress();
+      if (pairsFounded >= numOfCards / 2) {
+        alert("Congratulations!");
+      }
       cardsSelected.forEach((selectedCardId) => {
         const selectedCard = document.getElementById(selectedCardId);
         const selectedCardBack = card.childNodes[1];
@@ -158,13 +179,13 @@ async function flipCardHandler(e) {
 
 // Add the event listener to a card
 function addCardFlipListener(card) {
-  card.addEventListener("click", flipCardHandler); 
+  card.addEventListener("click", flipCardHandler);
 }
 
 // Fisher Yates algorithm for shuffling an array.
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]]; 
+    [array[i], array[j]] = [array[j], array[i]];
   }
 }
