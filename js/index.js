@@ -32,6 +32,8 @@ let numOfCards = 12;
 
 let cardsFlipped = 0;
 
+
+changeLevel();
 // gets the percentage of the progress
 progress.style.width = `${((pairsFounded * 2) / numOfCards) * 100}%`; // pairs founded is multiplied by 2 because 1 pair = 2 cards
 
