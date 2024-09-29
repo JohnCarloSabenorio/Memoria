@@ -27,11 +27,11 @@ const colors = [
   "#DB7093", // Pale Violet Red
   "#2E8B57", // Sea Green
 ];
-let pairsFounded = 6;
+let pairsFounded = 0;
 let numOfCards = 12;
-
-let cardsFlipped = 0;
-
+let cardsSelected = [];
+let colorsSelected = [];
+let flipCount = 0;
 
 changeLevel();
 // gets the percentage of the progress
@@ -74,47 +74,97 @@ function createCards(rows, columns) {
 
   cardColors = [];
   for (i = 0; i < totalCards / 2; i++) {
-    const color = colors[i % colors.length]; 
+    const color = colors[i % colors.length];
     cardColors.push(color, color);
   }
   console.log("CARD COLORS: ", cardColors);
   shuffleArray(cardColors);
+
+  // Add the cards to the game area
   for (let i = 0; i < totalCards; i++) {
+    // Create the elements
     const cardContainer = document.createElement("div");
     const card = document.createElement("div");
     const cardFront = document.createElement("div");
     const cardBack = document.createElement("div");
     cardContainer.classList.add("card-container");
-    card.id = i;
+
+    // Add an identifier to each cards
+    card.id = "card-" + i;
+
     card.classList.add("the-card");
     cardFront.classList.add("card-front");
     cardBack.classList.add("card-back");
+
+    // Set the color of the card
     cardBack.style.background = cardColors[i];
-    gameArea.appendChild(cardContainer);
+
     cardContainer.appendChild(card);
+    // Add the card to the container; front and back surfaces are added to the card
     card.appendChild(cardFront);
     card.appendChild(cardBack);
+    // adds the card to the game area
+    gameArea.appendChild(cardContainer);
 
     addCardFlipListener(card);
   }
 }
 
-function addCardFlipListener(card) {
-  card.addEventListener("click", (e) => {
-    cardsFlipped += 1;
+// Define the named event listener function
+async function flipCardHandler(e) {
+  const card = e.currentTarget;
 
-    if (cardsFlipped == 2) {
-      card.style.transform = "rotateY(0deg)";
-      cardsFlipped = 0;
-      return;
+  // Card will not be flipped if the card is already flipped, or if 2 cards are already flipped.
+  if (cardsSelected.includes(card.id) || flipCount === 2) return;
+
+  flipCount += 1;
+  cardsSelected.push(card.id);
+  const colorOfCard = card.childNodes[1].style.background;
+  colorsSelected.push(colorOfCard);
+
+  // Flips the card
+  card.style.transform = "rotateY(180deg)";
+
+  // When two cards have been selected
+  if (flipCount === 2) {
+
+    // This will give a brief delay before checking if the cards match or not
+    await new Promise((resolve) => setTimeout(resolve, 700));
+
+    // resets the flip count
+    flipCount = 0;
+
+    if (colorsSelected[0] === colorsSelected[1]) {
+      // removes the event listeners of the two matched cards
+      cardsSelected.forEach((selectedCardId) => {
+        const selectedCard = document.getElementById(selectedCardId);
+        const selectedCardBack = card.childNodes[1];
+        console.log(selectedCardBack.style.background);
+        selectedCard.removeEventListener("click", flipCardHandler); // Remove the flip handler for matched cards
+      });
+    } else {
+      // Flips the card back down if the cards do not match
+      cardsSelected.forEach((selectedCardId) => {
+        const selectedCard = document.getElementById(selectedCardId);
+        selectedCard.style.transform = "rotateY(0deg)";
+      });
     }
-    card.style.transform = "rotateY(180deg)";
-  });
+
+    // Clear the selected cards array
+    cardsSelected = [];
+    colorsSelected = [];
+  }
 }
 
+// Add the event listener to a card
+function addCardFlipListener(card) {
+  card.addEventListener("click", flipCardHandler); 
+}
+
+// Fisher Yates algorithm for shuffling an array.
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+    [array[i], array[j]] = [array[j], array[i]]; 
   }
 }
