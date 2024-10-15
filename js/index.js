@@ -9,18 +9,22 @@ const progress = document.querySelector(".progress");
 const startContainer = document.querySelector(".start-container");
 const startBtn = document.querySelector(".start-btn");
 const countdown = document.querySelector(".countdown");
+const timer = document.querySelector(".timer");
+
+const options = document.querySelectorAll(".option");
+
+function disableOptions(opts){
+  opts.forEach(opt => {
+    opt.disabled = true;
+  });
+} 
+function enableOptions(opts){
+  opts.forEach(opt => {
+    opt.disabled = false;
+  });
+} 
 startBtn.addEventListener("click", startHandler);
 
-async function startHandler(e) {
-  countdown.style.display = "inline";
-  let start = e.currentTarget;
-  start.style.display = "none";
-  for (let i = 3; i > 0; i--) {
-    countdown.textContent = "" + i;
-    await new Promise((resolve) => setTimeout(resolve, 800));
-  }
-  startContainer.style.display = "none";
-}
 const colors = [
   "#87CEEB", // Sky Blue
   "#FF7F50", // Coral
@@ -46,9 +50,27 @@ let numOfCards = 12;
 let cardsSelected = [];
 let colorsSelected = [];
 let flipCount = 0;
+let gameDuration = 150;
 
 changeLevel();
 updateProgress();
+
+async function startHandler(e) {
+  disableOptions(options);
+  progress.style.width = "0%";
+  countdown.style.display = "inline";
+  let start = e.currentTarget;
+  start.style.display = "none";
+  for (let i = 3; i > 0; i--) {
+    countdown.textContent = "" + i;
+    await new Promise((resolve) => setTimeout(resolve, 800));
+  }
+
+  countdown.style.display = "none";
+  startContainer.style.display = "none";
+  updateTimer();
+  countdown = setInterval(updateTimer, 1000); // Update every second
+}
 // gets the percentage of the progress
 function updateProgress() {
   progress.style.width = `${((pairsFounded * 2) / numOfCards) * 100}%`; // pairs founded is multiplied by 2 because 1 pair = 2 cards
@@ -64,6 +86,12 @@ function changeLevel() {
   gameArea.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
   numOfCards = rows * columns;
   createCards(rows, columns);
+}
+
+function changeTimer(){
+  var timerDropdown = document.getElementById("timer");
+  gameDuration = timerDropdown.value;
+  console.log(gameDuration);
 }
 
 function createCards(rows, columns) {
@@ -94,6 +122,8 @@ function createCards(rows, columns) {
     const color = colors[i % colors.length];
     cardColors.push(color, color);
   }
+
+
   console.log("CARD COLORS: ", cardColors);
   shuffleArray(cardColors);
 
@@ -145,7 +175,7 @@ async function flipCardHandler(e) {
   // When two cards have been selected
   if (flipCount === 2) {
     // This will give a brief delay before checking if the cards match or not
-    await new Promise((resolve) => setTimeout(resolve, 700));
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
     // resets the flip count
     flipCount = 0;
@@ -155,7 +185,7 @@ async function flipCardHandler(e) {
       pairsFounded += 1;
       updateProgress();
       if (pairsFounded >= numOfCards / 2) {
-        alert("Congratulations!");
+        endGame();
       }
       cardsSelected.forEach((selectedCardId) => {
         const selectedCard = document.getElementById(selectedCardId);
@@ -188,4 +218,25 @@ function shuffleArray(array) {
     const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]];
   }
+}
+
+function updateTimer() {
+  let minutes = Math.floor(gameDuration / 60);
+  let seconds = gameDuration % 60;
+  let formattedTime = `${minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
+  timer.textContent = `${formattedTime}`;
+  gameDuration--;
+
+  if (gameDuration < 0) {
+    clearInterval(countdown); // Stop the timer
+    endGame(); // End the game
+  }
+}
+function endGame() {
+  startContainer.style.display = "flex";
+  countdown.textContent = "YOU WIN!";
+  startBtn.style.display = "inline";
+  startBtn.textContent = "Retry";
+  gameDuration = 60 * 2;
+  enableOptions(options);
 }

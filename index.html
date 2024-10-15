@@ -39,12 +39,12 @@
           <option value="6x5">6x5</option>
           <option value="6x6">6x6</option>
         </select>
-        <p class="label">Speed:</p>
-        <select class="option" name="speed" id="speed">
-          <option value="Fast">Fast</option>
-          <option value="Standard">Standard</option>
-          <option value="Slow">Slow</option>
-          <option value="Very Slow">Very Slow</option>
+        <p class="label">Timer:</p>
+        <select class="option" name="timer" id="timer" onchange="changeTimer()">
+          <option value=60>1:00</option>
+          <option value=150 selected>2:30</option>
+          <option value=180>3:00</option>
+          <option value=210>3:30</option>
         </select>
         <p class="label">Hide Pairs:</p>
         <select class="option" name="hide-pairs" id="hide-pairs">
@@ -71,5 +71,6 @@
     </div>
 
     <script src="./js/index.js"></script>
+
   </body>
 </html>
