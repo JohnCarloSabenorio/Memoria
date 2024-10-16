@@ -1,7 +1,7 @@
 const level = document.getElementById("level");
 const speed = document.getElementById("speed");
 const hidePairs = document.getElementById("hide-pairs");
-const numbered = document.getElementById("hide-pairs");
+const numbered = document.getElementById("mode");
 const hideTimer = document.getElementById("hide-timer");
 const hideMoves = document.getElementById("hide-moves");
 const gameArea = document.querySelector(".cards-container");
@@ -10,19 +10,22 @@ const startContainer = document.querySelector(".start-container");
 const startBtn = document.querySelector(".start-btn");
 const countdown = document.querySelector(".countdown");
 const timer = document.querySelector(".timer");
+const timerDropdown = document.getElementById("timer");
+const pairsDropdown = document.getElementById("hide-pairs");
+const hideTimerDropdown = document.getElementById("hide-timer");
 
 const options = document.querySelectorAll(".option");
 
-function disableOptions(opts){
-  opts.forEach(opt => {
+function disableOptions(opts) {
+  opts.forEach((opt) => {
     opt.disabled = true;
   });
-} 
-function enableOptions(opts){
-  opts.forEach(opt => {
+}
+function enableOptions(opts) {
+  opts.forEach((opt) => {
     opt.disabled = false;
   });
-} 
+}
 startBtn.addEventListener("click", startHandler);
 
 const colors = [
@@ -51,11 +54,16 @@ let cardsSelected = [];
 let colorsSelected = [];
 let flipCount = 0;
 let gameDuration = 150;
+let pairsHidden = false;
+let noTimer = false;
 
+// This will initialize the gamearea at the start of the document.
 changeLevel();
 updateProgress();
 
 async function startHandler(e) {
+  // This will keep the card faced downwards after clicking retry.
+  changeLevel();
   disableOptions(options);
   progress.style.width = "0%";
   countdown.style.display = "inline";
@@ -68,8 +76,11 @@ async function startHandler(e) {
 
   countdown.style.display = "none";
   startContainer.style.display = "none";
-  updateTimer();
-  countdown = setInterval(updateTimer, 1000); // Update every second
+
+  if (noTimer != true) {
+    updateTimer();
+    countdown = setInterval(updateTimer, 1000); // Update every second
+  }
 }
 // gets the percentage of the progress
 function updateProgress() {
@@ -88,8 +99,7 @@ function changeLevel() {
   createCards(rows, columns);
 }
 
-function changeTimer(){
-  var timerDropdown = document.getElementById("timer");
+function changeTimer() {
   gameDuration = timerDropdown.value;
   console.log(gameDuration);
 }
@@ -122,7 +132,6 @@ function createCards(rows, columns) {
     const color = colors[i % colors.length];
     cardColors.push(color, color);
   }
-
 
   console.log("CARD COLORS: ", cardColors);
   shuffleArray(cardColors);
@@ -190,8 +199,10 @@ async function flipCardHandler(e) {
       cardsSelected.forEach((selectedCardId) => {
         const selectedCard = document.getElementById(selectedCardId);
         const selectedCardBack = card.childNodes[1];
-        console.log(selectedCardBack.style.background);
         selectedCard.removeEventListener("click", flipCardHandler); // Remove the flip handler for matched cards
+        if (pairsHidden == true) {
+          selectedCard.parentNode.style.visibility = "hidden";
+        }
       });
     } else {
       // Flips the card back down if the cards do not match
@@ -239,4 +250,12 @@ function endGame() {
   startBtn.textContent = "Retry";
   gameDuration = 60 * 2;
   enableOptions(options);
+}
+
+function togglePairsHidden() {
+  pairsHidden = pairsDropdown.value == "true";
+}
+
+function toggleTimerOff() {
+  noTimer = hideTimerDropdown.value == "true";
 }
