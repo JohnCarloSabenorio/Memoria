@@ -11,12 +11,12 @@
     <h1 class="title">Memoria</h1>
     <div class="grid-container">
       <div class="grid-item grid-item-1">
-        <p class="timer">00:00</p>
+        <p class="timer">2:30</p>
         <div class="progress-bar">
           <div class="progress"></div>
         </div>
         <div class="counter">
-          <p class="moves">Moves: 0</p>
+          <p class="moves">Moves: <span id = "move-count">0</span></p>
           <p class="percentage">100%</p>
         </div>
       </div>
@@ -40,10 +40,10 @@
         </select>
         <p class="label">Timer:</p>
         <select class="option" name="timer" id="timer" onchange="changeTimer()">
-          <option value=60>1:00</option>
-          <option value=150 selected>2:30</option>
-          <option value=180>3:00</option>
-          <option value=210>3:30</option>
+          <option value="60">1:00</option>
+          <option value="150" selected>2:30</option>
+          <option value="180">3:00</option>
+          <option value="210">3:30</option>
         </select>
         <p class="label">Hide Pairs:</p>
         <select class="option" name="hide-pairs" id="hide-pairs" onchange="togglePairsHidden()">
@@ -61,12 +61,12 @@
           <option value="false" selected>Off</option>
         </select>
         <p class="label">Hide Moves:</p>
-        <select class="option" name="hide-moves" id="hide-moves">
-          <option value="On">On</option>
-          <option value="Off">Off</option>
+        <select class="option" name="hide-moves" id="hide-moves" onchange="toggleHideMoves()">
+          <option value="true">On</option>
+          <option value="false" selected>Off</option>
         </select>
       </div>
-      <button class="reset-btn">Reset</button>
+      <button class="reset-btn" onclick = "resetOptions()">Reset</button>
     </div>
 
     <script src="./js/index.js"></script>

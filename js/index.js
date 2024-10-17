@@ -3,7 +3,7 @@ const speed = document.getElementById("speed");
 const hidePairs = document.getElementById("hide-pairs");
 const numbered = document.getElementById("mode");
 const hideTimer = document.getElementById("hide-timer");
-const hideMoves = document.getElementById("hide-moves");
+const hideMovesDropdown = document.getElementById("hide-moves");
 const gameArea = document.querySelector(".cards-container");
 const progress = document.querySelector(".progress");
 const startContainer = document.querySelector(".start-container");
@@ -14,7 +14,7 @@ const timerDropdown = document.getElementById("timer");
 const pairsDropdown = document.getElementById("hide-pairs");
 const hideTimerDropdown = document.getElementById("hide-timer");
 const modeDropdown = document.getElementById("mode");
-
+const moveCountDisplay = document.getElementById("move-count");
 const options = document.querySelectorAll(".option");
 
 function disableOptions(opts) {
@@ -81,6 +81,7 @@ let gameDuration = 150;
 let pairsHidden = false;
 let noTimer = false;
 let useImages = false;
+let hideMoves = false;
 let movesCount = 0;
 
 // This will initialize the gamearea at the start of the document.
@@ -124,8 +125,16 @@ function changeLevel() {
 }
 
 function changeTimer() {
-  gameDuration = timerDropdown.value;
+  gameDuration = parseInt(timerDropdown.value);
+  updateTimerDisplay();
   console.log(gameDuration);
+}
+
+function updateTimerDisplay() {
+  let minutes = Math.floor(gameDuration / 60);
+  let seconds = gameDuration % 60;
+  let formattedTime = `${minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
+  timer.textContent = `${formattedTime}`;
 }
 
 function createCards(rows, columns) {
@@ -186,10 +195,12 @@ function createCards(rows, columns) {
 // Define the named event listener function
 async function flipCardHandler(e) {
   const card = e.currentTarget;
-
   // Card will not be flipped if the card is already flipped, or if 2 cards are already flipped.
   if (cardsSelected.includes(card.id) || flipCount === 2) return;
 
+  if (!hideMoves) {
+    updateMoveCount();
+  }
   flipCount += 1;
   cardsSelected.push(card.id);
 
@@ -198,8 +209,7 @@ async function flipCardHandler(e) {
 
   if (useImages != true) {
     colorsSelected.push(colorOfCard);
-  }
-  else{
+  } else {
     imagesSelected.push(imageOfCard);
   }
 
@@ -214,10 +224,9 @@ async function flipCardHandler(e) {
 
     // resets the flip count
     flipCount = 0;
-    if (useImages != true){
+    if (useImages != true) {
       checkColors();
-    }
-    else{
+    } else {
       checkImages();
     }
   }
@@ -292,16 +301,18 @@ function shuffleArray(array) {
 }
 
 function updateTimer() {
-  let minutes = Math.floor(gameDuration / 60);
-  let seconds = gameDuration % 60;
-  let formattedTime = `${minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
-  timer.textContent = `${formattedTime}`;
+  updateTimerDisplay();
   gameDuration--;
 
   if (gameDuration < 0) {
     clearInterval(countdown); // Stop the timer
     endGame(); // End the game
   }
+}
+
+function updateMoveCount() {
+  movesCount++;
+  moveCountDisplay.textContent = movesCount;
 }
 function endGame() {
   stopTimer();
@@ -319,10 +330,28 @@ function togglePairsHidden() {
 
 function toggleTimerOff() {
   noTimer = hideTimerDropdown.value == "true";
+
+  if(noTimer){
+    timer.textContent = "00:00";
+  }
+  else{
+    updateTimerDisplay();
+  }
 }
 
 function toggleMode() {
   useImages = modeDropdown.value == "images";
+}
+
+function toggleHideMoves() {
+  hideMoves = hideMovesDropdown.value == "true";
+  console.log(hideMoves);
+
+  if (hideMoves) {
+    moveCountDisplay.textContent = "?";
+  } else {
+    moveCountDisplay.textContent = "0";
+  }
 }
 
 function stopTimer() {
@@ -334,4 +363,19 @@ function startTimer() {
     updateTimer();
     countdown = setInterval(updateTimer, 1000); // Update every second
   }
+}
+
+function resetOptions() {
+  level.value = "4x3";
+  timerDropdown.value = "150";
+  pairsDropdown.value = "false";
+  modeDropdown.value = "colors";
+  hideTimerDropdown.value = "false";
+  hideMovesDropdown.value = "false";
+  changeLevel();
+  changeTimer();
+  togglePairsHidden();
+  toggleMode();
+  toggleTimerOff();
+  toggleHideMoves();
 }
