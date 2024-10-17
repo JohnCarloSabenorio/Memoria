@@ -173,14 +173,16 @@ body {
   backface-visibility: hidden;
 }
 .card-front {
-  background-image: url("../images/my_logo.png");
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-
   color: white;
 }
 .card-back {
+  background-image: url("../images/card_icons/bear.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   color: black;
   transform: rotateY(180deg);
 }
@@ -259,3 +261,4 @@ select option {
     grid-template-columns: 1fr;
   }
 }
+

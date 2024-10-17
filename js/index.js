@@ -8,11 +8,12 @@ const gameArea = document.querySelector(".cards-container");
 const progress = document.querySelector(".progress");
 const startContainer = document.querySelector(".start-container");
 const startBtn = document.querySelector(".start-btn");
-const countdown = document.querySelector(".countdown");
+let countdown = document.querySelector(".countdown");
 const timer = document.querySelector(".timer");
 const timerDropdown = document.getElementById("timer");
 const pairsDropdown = document.getElementById("hide-pairs");
 const hideTimerDropdown = document.getElementById("hide-timer");
+const modeDropdown = document.getElementById("mode");
 
 const options = document.querySelectorAll(".option");
 
@@ -26,7 +27,7 @@ function enableOptions(opts) {
     opt.disabled = false;
   });
 }
-startBtn.addEventListener("click", startHandler);
+startBtn.addEventListener("click", startGame);
 
 const colors = [
   "#87CEEB", // Sky Blue
@@ -48,20 +49,45 @@ const colors = [
   "#DB7093", // Pale Violet Red
   "#2E8B57", // Sea Green
 ];
+
+const card_images = [
+  "bear.png",
+  "cactus.png",
+  "corgi.png",
+  "crown.png",
+  "dog.png",
+  "elephant.png",
+  "flower.png",
+  "fox.png",
+  "hippo.png",
+  "lion.png",
+  "penguin.png",
+  "ship.png",
+  "squirrel.png",
+  "stopwatch.png",
+  "tiger.png",
+  "turtle.png",
+  "vaisakhi.png",
+  "xmas_gifts.png",
+];
+
 let pairsFounded = 0;
 let numOfCards = 12;
 let cardsSelected = [];
 let colorsSelected = [];
+let imagesSelected = [];
 let flipCount = 0;
 let gameDuration = 150;
 let pairsHidden = false;
 let noTimer = false;
+let useImages = false;
+let movesCount = 0;
 
 // This will initialize the gamearea at the start of the document.
 changeLevel();
 updateProgress();
 
-async function startHandler(e) {
+async function startGame(e) {
   // This will keep the card faced downwards after clicking retry.
   changeLevel();
   disableOptions(options);
@@ -77,11 +103,9 @@ async function startHandler(e) {
   countdown.style.display = "none";
   startContainer.style.display = "none";
 
-  if (noTimer != true) {
-    updateTimer();
-    countdown = setInterval(updateTimer, 1000); // Update every second
-  }
+  startTimer();
 }
+
 // gets the percentage of the progress
 function updateProgress() {
   progress.style.width = `${((pairsFounded * 2) / numOfCards) * 100}%`; // pairs founded is multiplied by 2 because 1 pair = 2 cards
@@ -106,35 +130,23 @@ function changeTimer() {
 
 function createCards(rows, columns) {
   totalCards = rows * columns;
-  const bgcolors = [
-    "#87CEEB", // Sky Blue
-    "#FF7F50", // Coral
-    "#90EE90", // Light Green
-    "#DAA520", // Goldenrod
-    "#DC143C", // Crimson
-    "#BA55D3", // Medium Orchid
-    "#FF1493", // Deep Pink
-    "#F4A460", // Sandy Brown
-    "#40E0D0", // Turquoise
-    "#6B8E23", // Olive Drab
-    "#4169E1", // Royal Blue
-    "#B22222", // Firebrick
-    "#E6E6FA", // Lavender
-    "#708090", // Slate Gray
-    "#FF6347", // Tomato
-    "#FF8C00", // Dark Orange
-    "#DB7093", // Pale Violet Red
-    "#2E8B57", // Sea Green
-  ];
 
   cardColors = [];
-  for (i = 0; i < totalCards / 2; i++) {
-    const color = colors[i % colors.length];
-    cardColors.push(color, color);
-  }
+  cardPictures = [];
 
-  console.log("CARD COLORS: ", cardColors);
-  shuffleArray(cardColors);
+  if (useImages != true) {
+    for (i = 0; i < totalCards / 2; i++) {
+      const color = colors[i % colors.length];
+      cardColors.push(color, color);
+    }
+    shuffleArray(cardColors);
+  } else {
+    for (i = 0; i < totalCards / 2; i++) {
+      const picture = card_images[i % card_images.length];
+      cardPictures.push(picture, picture);
+    }
+    shuffleArray(cardPictures);
+  }
 
   // Add the cards to the game area
   for (let i = 0; i < totalCards; i++) {
@@ -153,7 +165,12 @@ function createCards(rows, columns) {
     cardBack.classList.add("card-back");
 
     // Set the color of the card
-    cardBack.style.background = cardColors[i];
+
+    if (useImages != true) {
+      cardBack.style.background = cardColors[i];
+    } else {
+      cardBack.style.backgroundImage = `url(../images/card_icons/${cardPictures[i]})`;
+    }
 
     cardContainer.appendChild(card);
     // Add the card to the container; front and back surfaces are added to the card
@@ -175,10 +192,19 @@ async function flipCardHandler(e) {
 
   flipCount += 1;
   cardsSelected.push(card.id);
+
   const colorOfCard = card.childNodes[1].style.background;
-  colorsSelected.push(colorOfCard);
+  const imageOfCard = card.childNodes[1].style.backgroundImage;
+
+  if (useImages != true) {
+    colorsSelected.push(colorOfCard);
+  }
+  else{
+    imagesSelected.push(imageOfCard);
+  }
 
   // Flips the card
+
   card.style.transform = "rotateY(180deg)";
 
   // When two cards have been selected
@@ -188,34 +214,68 @@ async function flipCardHandler(e) {
 
     // resets the flip count
     flipCount = 0;
-
-    if (colorsSelected[0] === colorsSelected[1]) {
-      // removes the event listeners of the two matched cards
-      pairsFounded += 1;
-      updateProgress();
-      if (pairsFounded >= numOfCards / 2) {
-        endGame();
-      }
-      cardsSelected.forEach((selectedCardId) => {
-        const selectedCard = document.getElementById(selectedCardId);
-        const selectedCardBack = card.childNodes[1];
-        selectedCard.removeEventListener("click", flipCardHandler); // Remove the flip handler for matched cards
-        if (pairsHidden == true) {
-          selectedCard.parentNode.style.visibility = "hidden";
-        }
-      });
-    } else {
-      // Flips the card back down if the cards do not match
-      cardsSelected.forEach((selectedCardId) => {
-        const selectedCard = document.getElementById(selectedCardId);
-        selectedCard.style.transform = "rotateY(0deg)";
-      });
+    if (useImages != true){
+      checkColors();
     }
-
-    // Clear the selected cards array
-    cardsSelected = [];
-    colorsSelected = [];
+    else{
+      checkImages();
+    }
   }
+}
+
+function checkImages() {
+  if (imagesSelected[0] === imagesSelected[1]) {
+    // removes the event listeners of the two matched cards
+    pairsFounded += 1;
+    updateProgress();
+    if (pairsFounded >= numOfCards / 2) {
+      endGame();
+    }
+    cardsSelected.forEach((selectedCardId) => {
+      const selectedCard = document.getElementById(selectedCardId);
+      selectedCard.removeEventListener("click", flipCardHandler); // Remove the flip handler for matched cards
+      if (pairsHidden == true) {
+        selectedCard.parentNode.style.visibility = "hidden";
+      }
+    });
+  } else {
+    // Flips the card back down if the cards do not match
+    cardsSelected.forEach((selectedCardId) => {
+      const selectedCard = document.getElementById(selectedCardId);
+      selectedCard.style.transform = "rotateY(0deg)";
+    });
+  }
+
+  // Clear the selected cards array
+  cardsSelected = [];
+  imagesSelected = [];
+}
+function checkColors() {
+  if (colorsSelected[0] === colorsSelected[1]) {
+    // removes the event listeners of the two matched cards
+    pairsFounded += 1;
+    updateProgress();
+    if (pairsFounded >= numOfCards / 2) {
+      endGame();
+    }
+    cardsSelected.forEach((selectedCardId) => {
+      const selectedCard = document.getElementById(selectedCardId);
+      selectedCard.removeEventListener("click", flipCardHandler); // Remove the flip handler for matched cards
+      if (pairsHidden == true) {
+        selectedCard.parentNode.style.visibility = "hidden";
+      }
+    });
+  } else {
+    // Flips the card back down if the cards do not match
+    cardsSelected.forEach((selectedCardId) => {
+      const selectedCard = document.getElementById(selectedCardId);
+      selectedCard.style.transform = "rotateY(0deg)";
+    });
+  }
+
+  // Clear the selected cards array
+  cardsSelected = [];
+  colorsSelected = [];
 }
 
 // Add the event listener to a card
@@ -244,6 +304,7 @@ function updateTimer() {
   }
 }
 function endGame() {
+  stopTimer();
   startContainer.style.display = "flex";
   countdown.textContent = "YOU WIN!";
   startBtn.style.display = "inline";
@@ -258,4 +319,19 @@ function togglePairsHidden() {
 
 function toggleTimerOff() {
   noTimer = hideTimerDropdown.value == "true";
+}
+
+function toggleMode() {
+  useImages = modeDropdown.value == "images";
+}
+
+function stopTimer() {
+  clearInterval(countdown); // Stop the timer
+}
+
+function startTimer() {
+  if (noTimer != true) {
+    updateTimer();
+    countdown = setInterval(updateTimer, 1000); // Update every second
+  }
 }
