@@ -180,9 +180,10 @@ body {
 }
 .card-back {
   background-image: url("../images/card_icons/bear.png");
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+
   color: black;
   transform: rotateY(180deg);
 }
