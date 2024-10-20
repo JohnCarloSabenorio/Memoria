@@ -16,7 +16,7 @@ const hideTimerDropdown = document.getElementById("hide-timer");
 const modeDropdown = document.getElementById("mode");
 const moveCountDisplay = document.getElementById("move-count");
 const options = document.querySelectorAll(".option");
-
+const percentageText = document.querySelector(".percentage");
 function disableOptions(opts) {
   opts.forEach((opt) => {
     opt.disabled = true;
@@ -83,16 +83,30 @@ let noTimer = false;
 let useImages = false;
 let hideMoves = false;
 let movesCount = 0;
-
+let countdownInterval;
 // This will initialize the gamearea at the start of the document.
 changeLevel();
 updateProgress();
 
+function resetGame() {
+  pairsFounded = 0;
+  cardsSelected = [];
+  colorsSelected = [];
+  imagesSelected = [];
+  flipCount = 0;
+  movesCount = 0;
+  progress.style.width = "0%";
+  percentageText.textContent = `0%`;
+  moveCountDisplay.textContent = `0`;
+}
+
 async function startGame(e) {
   // This will keep the card faced downwards after clicking retry.
   changeLevel();
+  changeTimer();
   disableOptions(options);
-  progress.style.width = "0%";
+  resetGame();
+
   countdown.style.display = "inline";
   let start = e.currentTarget;
   start.style.display = "none";
@@ -109,7 +123,9 @@ async function startGame(e) {
 
 // gets the percentage of the progress
 function updateProgress() {
+
   progress.style.width = `${((pairsFounded * 2) / numOfCards) * 100}%`; // pairs founded is multiplied by 2 because 1 pair = 2 cards
+  percentageText.textContent = `${Math.round(((pairsFounded * 2) / numOfCards) * 100)}%`;
 }
 
 function changeLevel() {
@@ -331,10 +347,9 @@ function togglePairsHidden() {
 function toggleTimerOff() {
   noTimer = hideTimerDropdown.value == "true";
 
-  if(noTimer){
+  if (noTimer) {
     timer.textContent = "00:00";
-  }
-  else{
+  } else {
     updateTimerDisplay();
   }
 }
@@ -361,7 +376,7 @@ function stopTimer() {
 function startTimer() {
   if (noTimer != true) {
     updateTimer();
-    countdown = setInterval(updateTimer, 1000); // Update every second
+    countdownInterval = setInterval(updateTimer, 1000); // Update every second
   }
 }
 
