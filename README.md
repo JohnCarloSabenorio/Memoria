@@ -36,9 +36,9 @@ Inspired by traditional memory match games, Memoria was developed as a way to pr
 
 ## 🖼️ Screenshots  
 
-| 🏠 Home | 💻 Desktop Gameplay | 📱 Mobile View |
+ 💻 Desktop Gameplay | 📱 Mobile View |
 |:--------:|:------------------:|:--------------:|
-| ![Home Screenshot](screenshots/screenshot1.png) | ![Desktop Screenshot](screenshots/screenshot2.png) | ![Mobile Screenshot](screenshots/screenshot3.png) |
+| ![Home Screenshot](screenshots/screenshot1.png) | ![Desktop Screenshot](screenshots/screenshot2.png)
 
 > _Tip: Place your screenshots inside a `/screenshots` folder in your project directory._
 
