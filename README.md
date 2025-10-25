@@ -10,7 +10,7 @@ Flip the cards, match pairs, and challenge yourself in different modes and diffi
 - [Features](#-features)  
 - [Screenshots](#screenshots)  
 - [Tech Stack](#-tech-stack)  
-- [Installation](#-installation)  
+- [Installation](#installation)  
 
 ---
 
@@ -57,7 +57,7 @@ Inspired by traditional memory match games, Memoria was developed as a way to pr
 
 ---
 
-## ⚙️ Installation  
+## Installation  
 Run the project locally in a few simple steps:
 
 ```bash
