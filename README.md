@@ -34,7 +34,7 @@ Inspired by traditional memory match games, Memoria was developed as a way to pr
   
 ---
 
-## 🖼️ Screenshots  
+## Screenshots  
 
 | 💻 Desktop View | 📱 Mobile View |
 |:-------------------:|:--------------:|
