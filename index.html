@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="./images/my_logo.png" />
+    <link rel="icon" href="./images/memoria-logo.jpeg" />
     <link rel="stylesheet" href="./css/style.css" />
     <title>Memoria</title>
   </head>
@@ -16,27 +16,23 @@
           <div class="progress"></div>
         </div>
         <div class="counter">
-          <p class="moves">Moves: <span id = "move-count">0</span></p>
+          <p class="moves">Moves: <span id="move-count">0</span></p>
           <p class="percentage">0%</p>
         </div>
       </div>
       <div class="grid-item grid-item-2">
         <div class="start-container">
-          <h1 class = "countdown"></h1>
-          <button class = "start-btn">Start</button>
+          <h1 class="countdown"></h1>
+          <button class="start-btn">Start</button>
         </div>
-        <div class = "cards-container">
-          
-        </div>
+        <div class="cards-container"></div>
       </div>
       <div class="grid-item grid-item-3">
         <p class="label">Level:</p>
         <select class="option" name="level" id="level" onchange="changeLevel()">
           <option value="4x3">4x3</option>
-          <option value="4x4">4x4</option>
           <option value="5x4">5x4</option>
           <option value="6x5">6x5</option>
-          <option value="6x6">6x6</option>
         </select>
         <p class="label">Timer:</p>
         <select class="option" name="timer" id="timer" onchange="changeTimer()">
@@ -46,30 +42,49 @@
           <option value="210">3:30</option>
         </select>
         <p class="label">Hide Pairs:</p>
-        <select class="option" name="hide-pairs" id="hide-pairs" onchange="togglePairsHidden()">
+        <select
+          class="option"
+          name="hide-pairs"
+          id="hide-pairs"
+          onchange="togglePairsHidden()"
+        >
           <option value="true">On</option>
           <option value="false" selected>Off</option>
         </select>
         <p class="label">Mode:</p>
-        <select class="option" name="numbered" id="mode" onchange = "toggleMode()">
+        <select
+          class="option"
+          name="numbered"
+          id="mode"
+          onchange="toggleMode()"
+        >
           <option value="colors" selected>Colors</option>
           <option value="images">Images</option>
         </select>
         <p class="label">No Timer:</p>
-        <select class="option" name="hide-timer" id="hide-timer" onchange="toggleTimerOff()">
+        <select
+          class="option"
+          name="hide-timer"
+          id="hide-timer"
+          onchange="toggleTimerOff()"
+        >
           <option value="true">On</option>
           <option value="false" selected>Off</option>
         </select>
-        <p class="label">Hide Moves:</p>
-        <select class="option" name="hide-moves" id="hide-moves" onchange="toggleHideMoves()">
+        <!-- <p class="label">Hide Moves:</p>
+        <select
+          class="option"
+          name="hide-moves"
+          id="hide-moves"
+          onchange="toggleHideMoves()"
+        >
           <option value="true">On</option>
           <option value="false" selected>Off</option>
-        </select>
+        </select> -->
       </div>
-      <button class="reset-btn" onclick = "resetOptions()">Reset</button>
+      <button class="stop-btn" disabled="true">Stop</button>
     </div>
 
     <script src="./js/index.js"></script>
-
   </body>
 </html>

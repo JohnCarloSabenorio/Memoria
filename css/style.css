@@ -208,7 +208,7 @@ body {
   text-align: center;
 }
 
-.reset-btn {
+.stop-btn {
   grid-area: reset;
   padding: 1rem;
   border-radius: var(--border-radius);
@@ -261,4 +261,3 @@ select option {
     grid-template-columns: 1fr;
   }
 }
-

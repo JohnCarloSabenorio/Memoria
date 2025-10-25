@@ -17,6 +17,7 @@ const modeDropdown = document.getElementById("mode");
 const moveCountDisplay = document.getElementById("move-count");
 const options = document.querySelectorAll(".option");
 const percentageText = document.querySelector(".percentage");
+const stopBtn = document.querySelector(".stop-btn");
 function disableOptions(opts) {
   opts.forEach((opt) => {
     opt.disabled = true;
@@ -28,6 +29,11 @@ function enableOptions(opts) {
   });
 }
 startBtn.addEventListener("click", startGame);
+
+stopBtn.addEventListener("click", (e) => {
+  stopTimer();
+  endGame();
+});
 
 const colors = [
   "#87CEEB", // Sky Blue
@@ -115,6 +121,8 @@ async function startGame(e) {
     await new Promise((resolve) => setTimeout(resolve, 800));
   }
 
+  stopBtn.disabled = false;
+
   countdown.style.display = "none";
   startContainer.style.display = "none";
 
@@ -123,9 +131,10 @@ async function startGame(e) {
 
 // gets the percentage of the progress
 function updateProgress() {
-
   progress.style.width = `${((pairsFounded * 2) / numOfCards) * 100}%`; // pairs founded is multiplied by 2 because 1 pair = 2 cards
-  percentageText.textContent = `${Math.round(((pairsFounded * 2) / numOfCards) * 100)}%`;
+  percentageText.textContent = `${Math.round(
+    ((pairsFounded * 2) / numOfCards) * 100
+  )}%`;
 }
 
 function changeLevel() {
@@ -332,6 +341,7 @@ function updateMoveCount() {
 }
 function endGame() {
   stopTimer();
+  stopBtn.disabled = true;
   startContainer.style.display = "flex";
   countdown.textContent = "YOU WIN!";
   startBtn.style.display = "inline";
@@ -349,8 +359,10 @@ function toggleTimerOff() {
 
   if (noTimer) {
     timer.textContent = "00:00";
+    timer.style.visibility = "hidden";
   } else {
     updateTimerDisplay();
+    timer.style.visibility = "visible";
   }
 }
 
