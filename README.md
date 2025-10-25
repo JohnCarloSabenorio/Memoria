@@ -8,7 +8,7 @@ Flip the cards, match pairs, and challenge yourself in different modes and diffi
 ## 📑 Table of Contents  
 - [About](#-about)  
 - [Features](#-features)  
-- [Screenshots](#-screenshots)  
+- [Screenshots](#screenshots)  
 - [Tech Stack](#-tech-stack)  
 - [Installation](#-installation)  
 
