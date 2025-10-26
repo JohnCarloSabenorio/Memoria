@@ -141,8 +141,7 @@ function changeLevel() {
   gameArea.innerHTML = "";
   let rows = parseInt(level.value[0]);
   let columns = parseInt(level.value[level.value.length - 1]);
-  console.log(`Number of Rows: ${rows}`);
-  console.log(`Number of Columns: ${columns}`);
+
   gameArea.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
   gameArea.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
   numOfCards = rows * columns;
@@ -152,7 +151,6 @@ function changeLevel() {
 function changeTimer() {
   gameDuration = parseInt(timerDropdown.value);
   updateTimerDisplay();
-  console.log(gameDuration);
 }
 
 function updateTimerDisplay() {
@@ -372,7 +370,6 @@ function toggleMode() {
 
 function toggleHideMoves() {
   hideMoves = hideMovesDropdown.value == "true";
-  console.log(hideMoves);
 
   if (hideMoves) {
     moveCountDisplay.textContent = "?";
