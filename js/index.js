@@ -31,7 +31,6 @@ function enableOptions(opts) {
 startBtn.addEventListener("click", startGame);
 
 stopBtn.addEventListener("click", (e) => {
-  stopTimer();
   endGame();
 });
 
@@ -84,6 +83,7 @@ let colorsSelected = [];
 let imagesSelected = [];
 let flipCount = 0;
 let gameDuration = 150;
+let gameDurationCountdown = gameDuration;
 let pairsHidden = false;
 let noTimer = false;
 let useImages = false;
@@ -150,12 +150,13 @@ function changeLevel() {
 
 function changeTimer() {
   gameDuration = parseInt(timerDropdown.value);
+  gameDurationCountdown = gameDuration;
   updateTimerDisplay();
 }
 
 function updateTimerDisplay() {
-  let minutes = Math.floor(gameDuration / 60);
-  let seconds = gameDuration % 60;
+  let minutes = Math.floor(gameDurationCountdown / 60);
+  let seconds = gameDurationCountdown % 60;
   let formattedTime = `${minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
   timer.textContent = `${formattedTime}`;
 }
@@ -325,10 +326,10 @@ function shuffleArray(array) {
 
 function updateTimer() {
   updateTimerDisplay();
-  gameDuration--;
+  gameDurationCountdown--;
 
-  if (gameDuration < 0) {
-    clearInterval(countdown); // Stop the timer
+  if (gameDurationCountdown < 0) {
+    clearInterval(countdownInterval); // Stop the timer
     endGame(); // End the game
   }
 }
@@ -344,7 +345,7 @@ function endGame() {
   countdown.textContent = "YOU WIN!";
   startBtn.style.display = "inline";
   startBtn.textContent = "Retry";
-  gameDuration = 60 * 2;
+  gameDurationCountdown = gameDuration;
   enableOptions(options);
 }
 
@@ -379,7 +380,7 @@ function toggleHideMoves() {
 }
 
 function stopTimer() {
-  clearInterval(countdown); // Stop the timer
+  clearInterval(countdownInterval); // Stop the timer
 }
 
 function startTimer() {
