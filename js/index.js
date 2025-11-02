@@ -201,7 +201,7 @@ function createCards(rows, columns) {
     if (useImages != true) {
       cardBack.style.background = cardColors[i];
     } else {
-      cardBack.style.backgroundImage = `url(../images/card_icons/${cardPictures[i]})`;
+      cardBack.style.backgroundImage = `url(./images/card_icons/${cardPictures[i]})`;
     }
 
     cardContainer.appendChild(card);
