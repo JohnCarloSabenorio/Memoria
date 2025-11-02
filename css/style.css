@@ -13,7 +13,7 @@ html {
 }
 body {
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(107, 93, 76, 0.5)),
-    url("../images/bg_image.jpg");
+    url("./images/bg_image.jpg");
   background-color: black;
   background-repeat: no-repeat;
   background-position: center;
@@ -178,7 +178,7 @@ body {
   color: white;
 }
 .card-back {
-  background-image: url("../images/card_icons/bear.png");
+  background-image: url("./images/card_icons/bear.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
